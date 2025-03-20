@@ -1,6 +1,6 @@
 namespace APBD_Task02;
 
-public class PersonalComputer : IDevice
+public class PersonalComputer : Device
 {
     public String OperationalSystem { get; set; }
 
@@ -15,5 +15,10 @@ public class PersonalComputer : IDevice
     public override string ToString()
     {
         return $"PersonalComputer({Id}, {Name}, {TurnedOn}, {OperationalSystem})";
+    }
+
+    public override string ToFileRepresentation()
+    {
+        return $"{Id},{Name},{TurnedOn},{OperationalSystem}";
     }
 }

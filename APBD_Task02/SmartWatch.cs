@@ -1,6 +1,6 @@
 namespace APBD_Task02;
 
-public class SmartWatch : IDevice, IPowerNotifier
+public class SmartWatch : Device, IPowerNotifier
 {
     private float _batteryPercentage;
     
@@ -41,5 +41,10 @@ public class SmartWatch : IDevice, IPowerNotifier
     public override string ToString()
     {
         return $"SmartWatch({Id}, {Name}, {TurnedOn}, {BatteryPercentage})";
+    }
+
+    public override string ToFileRepresentation()
+    {
+        return $"{Id},{Name},{TurnedOn},{BatteryPercentage}";
     }
 }

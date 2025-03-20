@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace APBD_Task02;
 
-public class EmbeddedDevice : IDevice
+public class EmbeddedDevice : Device
 {
     static bool IsValidIPv4(string ip)
     {
@@ -17,6 +17,8 @@ public class EmbeddedDevice : IDevice
         {
             if (!IsValidIPv4(value))
                 throw new ArgumentException("Invalid IP address");
+            
+            _ipAddress = value;
         }
     }
     public string NetworkName { get; set; }
@@ -36,5 +38,10 @@ public class EmbeddedDevice : IDevice
     public override string ToString()
     {
         return $"EmbeddedDevice({Id}, {Name}, {TurnedOn}, {IpAddress}, {NetworkName})";
+    }
+
+    public override string ToFileRepresentation()
+    {
+        return $"{Id},{Name},{IpAddress},{NetworkName}";
     }
 }

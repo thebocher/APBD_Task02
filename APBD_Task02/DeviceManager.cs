@@ -2,7 +2,7 @@ namespace APBD_Task02;
 
 public class DeviceManager
 {
-    private List<IDevice> devices;
+    private List<Device> devices = new List<Device>();
     private string _filePath;
     
     public DeviceManager(string filePath)
@@ -30,7 +30,7 @@ public class DeviceManager
                 
                 name = split[1];
                 turnedOn = bool.Parse(split[2]);
-                float batteryPercentage = float.Parse(split[4].Replace("%", ""));
+                float batteryPercentage = float.Parse(split[3].Replace("%", ""));
                 
                 SmartWatch smartWatch = new SmartWatch();
                 smartWatch.Id = id;
@@ -76,20 +76,20 @@ public class DeviceManager
         }
     }
 
-    public void AddDevice(IDevice device)
+    public void AddDevice(Device device)
     {
         devices.Add(device);
     }
 
     public void RemoveDevice(string deviceId)
     {
-        IDevice device = getDeviceById(deviceId);
+        Device device = getDeviceById(deviceId);
         devices.Remove(device);
     }
 
-    public void EditDeviceData(String deviceId, IDevice data)
+    public void EditDeviceData(String deviceId, Device data)
     {
-        IDevice device = getDeviceById(deviceId);
+        Device device = getDeviceById(deviceId);
         
         if (device.GetType() != data.GetType())
             throw new InvalidCastException();
@@ -128,7 +128,7 @@ public class DeviceManager
 
     public void TurnOnDevice(string deviceId)
     {
-        IDevice device = getDeviceById(deviceId);
+        Device device = getDeviceById(deviceId);
         device.TurnOn();
     }
 
@@ -145,7 +145,7 @@ public class DeviceManager
         }
     }
 
-    public IDevice getDeviceById(string deviceId)
+    public Device getDeviceById(string deviceId)
     {
         foreach (var device in devices)
         {
@@ -161,8 +161,10 @@ public class DeviceManager
 
         foreach (var device in devices)
         {
-            newData += device;
+            newData += device.ToFileRepresentation() + "\n";
         }
+
+        newData.TrimEnd();
         
         File.WriteAllText(_filePath, newData);
     }
@@ -173,7 +175,7 @@ public class DeviceManager
 
         foreach (var device in devices)
         {
-            devicesString += device.ToString() + ",";
+            devicesString += device;
         }
         devicesString = devicesString.TrimEnd(',');
 
