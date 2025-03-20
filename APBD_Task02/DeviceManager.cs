@@ -166,4 +166,17 @@ public class DeviceManager
         
         File.WriteAllText(_filePath, newData);
     }
+
+    public override string ToString()
+    {
+        string devicesString = "";
+
+        foreach (var device in devices)
+        {
+            devicesString += device.ToString() + ",";
+        }
+        devicesString = devicesString.TrimEnd(',');
+
+        return $"DeviceManager(\"{_filePath}\", [{devicesString}])";
+    }
 }
