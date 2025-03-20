@@ -100,8 +100,8 @@ public class DeviceManager
             SmartWatch smartWatch2 = (SmartWatch)data;
             
             smartWatch.Name = smartWatch2.Name;
-            smartWatch2.TurnedOn = smartWatch.TurnedOn;
-            smartWatch2.BatteryPercentage = smartWatch.BatteryPercentage;
+            smartWatch.TurnedOn = smartWatch2.TurnedOn;
+            smartWatch.BatteryPercentage = smartWatch2.BatteryPercentage;
         } else if (device is PersonalComputer)
         {
             PersonalComputer personalComputer = (PersonalComputer)device;
