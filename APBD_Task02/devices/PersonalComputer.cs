@@ -21,4 +21,14 @@ public class PersonalComputer : Device
     {
         return $"{Id},{Name},{TurnedOn},{OperationalSystem}";
     }
+    
+    public override void Update(Device device)
+    {
+        base.Update(device);
+        
+        var pc = (PersonalComputer)device;
+        Name = pc.Name;
+        TurnedOn = pc.TurnedOn;
+        OperationalSystem = pc.OperationalSystem;
+    }
 }

@@ -44,4 +44,16 @@ public class EmbeddedDevice : Device
     {
         return $"{Id},{Name},{IpAddress},{NetworkName}";
     }
+
+    public override void Update(Device device)
+    {
+        base.Update(device);
+        
+        var ede2 = (EmbeddedDevice)device;
+        Name = ede2.Name;
+        TurnedOn = ede2.TurnedOn;
+        TurnedOn = ede2.TurnedOn;
+        IpAddress = ede2.IpAddress;
+        NetworkName = ede2.NetworkName;
+    }
 }

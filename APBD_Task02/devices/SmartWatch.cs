@@ -47,4 +47,14 @@ public class SmartWatch : Device, IPowerNotifier
     {
         return $"{Id},{Name},{TurnedOn},{BatteryPercentage}";
     }
+
+    public override void Update(Device device)
+    {
+        base.Update(device);
+        
+        var smartWatch2 = (SmartWatch)device;
+        Name = smartWatch2.Name;
+        TurnedOn = smartWatch2.TurnedOn;
+        BatteryPercentage = smartWatch2.BatteryPercentage;
+    }
 }

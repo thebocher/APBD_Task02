@@ -16,6 +16,12 @@ public abstract class Device
         TurnedOn = false;
     }
 
+    public virtual void Update(Device device)
+    {
+        if (device.GetType() != GetType())
+            throw new InvalidCastException();
+    }
+
     public virtual string ToFileRepresentation()
     {
         return $"{Id}, {Name}, {TurnedOn}";

@@ -1,9 +1,14 @@
+using APBD_Task02.parsers;
+
 namespace APBD_Task02;
 
 public class FileDeviceManager : IDeviceManager
 {
-    private List<Device> _devices;
+    private readonly List<Device> _devices;
     private readonly string _filePath;
+    private static readonly CsvDeviceFileParser Parser = new([
+        new EmbeddedDeviceParser(), new PersonalComputerParser(), new SmartWatchParser()
+    ]); 
     
     public FileDeviceManager(string filePath)
     {
@@ -14,7 +19,7 @@ public class FileDeviceManager : IDeviceManager
             throw new FileNotFoundException("File does not exist");
         }
 
-        _devices = CsvDeviceFileParser.Parse(filePath);
+        _devices = Parser.Parse(filePath);
     }
 
     public void AddDevice(Device device)
@@ -24,52 +29,19 @@ public class FileDeviceManager : IDeviceManager
 
     public void RemoveDevice(string deviceId)
     {
-        Device device = GetDeviceById(deviceId);
+        var device = GetDeviceById(deviceId);
         _devices.Remove(device);
     }
 
     public void EditDeviceData(String deviceId, Device data)
     {
-        Device device = GetDeviceById(deviceId);
-        
-        if (device.GetType() != data.GetType())
-            throw new InvalidCastException();
-
-        if (device is SmartWatch)
-        {
-            SmartWatch smartWatch = (SmartWatch)device;
-            SmartWatch smartWatch2 = (SmartWatch)data;
-            
-            smartWatch.Name = smartWatch2.Name;
-            smartWatch.TurnedOn = smartWatch2.TurnedOn;
-            smartWatch.BatteryPercentage = smartWatch2.BatteryPercentage;
-        } else if (device is PersonalComputer)
-        {
-            PersonalComputer personalComputer = (PersonalComputer)device;
-            PersonalComputer personalComputer2 = (PersonalComputer)data;
-            
-            personalComputer.Name = personalComputer2.Name;
-            personalComputer.TurnedOn = personalComputer2.TurnedOn;
-            personalComputer.OperationalSystem = personalComputer2.OperationalSystem;
-        } else if (device is EmbeddedDevice)
-        {
-            EmbeddedDevice ede = (EmbeddedDevice)device;
-            EmbeddedDevice ede2 = (EmbeddedDevice)data;
-            
-            ede.Name = ede2.Name;
-            ede.TurnedOn = ede2.TurnedOn;
-            ede2.TurnedOn = ede2.TurnedOn;
-            ede2.IpAddress = ede2.IpAddress;
-            ede2.NetworkName = ede2.NetworkName;
-        } else
-        {
-            throw new ArgumentException();
-        }
+        var device = GetDeviceById(deviceId);
+        device.Update(data);
     }
 
     public void TurnOnDevice(string deviceId)
     {
-        Device device = GetDeviceById(deviceId);
+        var device = GetDeviceById(deviceId);
         device.TurnOn();
     }
 
@@ -98,7 +70,7 @@ public class FileDeviceManager : IDeviceManager
 
     public void SaveData()
     {
-        string newData = "";
+        var newData = "";
 
         foreach (var device in _devices)
         {
@@ -112,7 +84,7 @@ public class FileDeviceManager : IDeviceManager
 
     public override string ToString()
     {
-        string devicesString = "";
+        var devicesString = "";
 
         foreach (var device in _devices)
         {
