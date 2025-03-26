@@ -1,9 +1,9 @@
 ﻿using APBD_Task02;
 
-DeviceManager d;
+IDeviceManager d;
 try
 {
-    d = new DeviceManager("/Users/thebocher/Downloads/input1.txt");
+    d = DeviceManagerFactory.GetFileDeviceManager("/Users/thebocher/Downloads/input1.txt");
 }
 catch (ArgumentException e)
 {
@@ -28,13 +28,13 @@ Console.WriteLine("after adding new device:");
 d.ShowAllDevices();
 Console.WriteLine();
 
-d.SaveDataToFile();
+d.SaveData();
 
 try
 {
     d.RemoveDevice("SW-19");
 }
-catch (DeviceNotFound e)
+catch (DeviceNotFoundException e)
 {
     Console.WriteLine("Device SW-19 not found");
 }
